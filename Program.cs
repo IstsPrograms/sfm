@@ -27,12 +27,12 @@ namespace sfm
         {
             foreach(string path in paths)
             {
-                if (File.Exists($"{path}{program}"))
+                if (File.Exists($"{path}{program.Split()[0]}"))
                 {
                     Process.Start($"{path}{program}");
                     return;
                 }
-                else if(File.Exists($"{path}{program}.exe"))
+                else if(File.Exists($"{path}{program.Split()[0]}.exe"))
                 {
                     Process.Start($"{path}{program}.exe");
                     return;
@@ -175,7 +175,7 @@ namespace sfm
                             Console.WriteLine("[MF] (file name) - Creates new file\n[MD] (dir name) - Creates new dir\n[SD] - Switches view mode to directories");
                             Console.WriteLine("[SF] - Switches view mode to files\n[EX] - Executes current file");
                             Console.WriteLine(":cd (path) - Changes path\n:none - Sets current file to NONE\n:pex (program) - Executes program from PATH\n:finf - Gets info about current file");
-                            Console.WriteLine(":sfmsc - Get info about system and SFM");
+                            Console.WriteLine(":sfmsc - Get info about system and SFM\n:q - Quit");
                             Console.ReadKey();
                             Console.Clear();
                             break;
@@ -190,6 +190,8 @@ namespace sfm
                                 Console.Clear();
                             }
                             break;
+                        case ":q":
+                            return;
                         case ":sfmsc":
                             Console.Clear();
                             Console.WriteLine($"DIR: {Environment.CurrentDirectory}    FILE: {currentFile}    View Mode: {viewMode}");
