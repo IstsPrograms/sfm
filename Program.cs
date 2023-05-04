@@ -174,21 +174,25 @@ namespace sfm
                             Process.Start(currentFile);
                             break;
                         case ":rm":
-                            isInputInt = int.TryParse(input.Split()[1], out selectedFile);
-                            if(isInputInt)
+                            try
                             {
-                                if (Directory.Exists(files[selectedFile]))
+                                isInputInt = int.TryParse(input.Split()[1], out selectedFile);
+                                if (isInputInt)
                                 {
-                                    Directory.Delete(files[selectedFile]);
+                                    if (Directory.Exists(files[selectedFile]))
+                                    {
+                                        Directory.Delete(files[selectedFile]);
+                                    }
+                                }
+                                else
+                                {
+                                    if (Directory.Exists(input.Replace($":rm ", "")))
+                                    {
+                                        Directory.Delete(input.Replace($":rm ", ""));
+                                    }
                                 }
                             }
-                            else
-                            {
-                                if (Directory.Exists(input.Replace($":rm ", "")))
-                                {
-                                    Directory.Delete(input.Replace($":rm ", ""));
-                                }
-                            }
+                            catch { }
                             Console.Clear();
                             break;
                         default:
