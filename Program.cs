@@ -29,12 +29,12 @@ namespace sfm
             {
                 if (File.Exists($"{path}{program.Split()[0]}"))
                 {
-                    Process.Start($"{path}{program}");
+                    Process.Start($"{path}{program.Split()[0]}", program.Replace($"{program.Split()[0]} ", ""));
                     return;
                 }
                 else if(File.Exists($"{path}{program.Split()[0]}.exe"))
                 {
-                    Process.Start($"{path}{program}.exe");
+                    Process.Start($"{path}{program.Split()[0]}.exe", program.Replace($"{program.Split()[0]} ", ""));
                     return;
                 }
             }
