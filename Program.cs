@@ -44,7 +44,7 @@ namespace sfm
     {
         static void Main(string[] args)
         {
-            
+            Console.Clear();
             char fstp = '/'; // Set to '/' if you use Linux
             string currentFile = "NONE";
             ViewMode viewMode = ViewMode.Files;
@@ -125,16 +125,24 @@ namespace sfm
                             Console.Clear();
                             break;
                         case "MF":
-                            if (!File.Exists(input.Split()[1]))
+                            if (!File.Exists(input.Replace($"MF ", "")))
                             {
-                                File.Create(input.Split()[1]).Close();
+                                try
+                                {
+                                    File.Create(input.Replace($"MF ", "")).Close();
+                                }
+                                catch { }
                             }
                             Console.Clear();
                             break;
                         case "MD":
-                            if (!Directory.Exists(input.Split()[1]))
+                            if (!Directory.Exists(input.Replace($"MD ", "")))
                             {
-                                Directory.CreateDirectory(input.Split()[1]);
+                                try
+                                {
+                                    Directory.CreateDirectory(input.Replace($"MD ", ""));
+                                }
+                                catch { }
                             }
                             Console.Clear();
                             break;
@@ -165,6 +173,24 @@ namespace sfm
                             Console.Clear();
                             Process.Start(currentFile);
                             break;
+                        case ":rm":
+                            isInputInt = int.TryParse(input.Split()[1], out selectedFile);
+                            if(isInputInt)
+                            {
+                                if (Directory.Exists(files[selectedFile]))
+                                {
+                                    Directory.Delete(files[selectedFile]);
+                                }
+                            }
+                            else
+                            {
+                                if (Directory.Exists(input.Replace($":rm ", "")))
+                                {
+                                    Directory.Delete(input.Replace($":rm ", ""));
+                                }
+                            }
+                            Console.Clear();
+                            break;
                         default:
                             Console.Clear();
                             break;
@@ -175,7 +201,7 @@ namespace sfm
                             Console.WriteLine("[MF] (file name) - Creates new file\n[MD] (dir name) - Creates new dir\n[SD] - Switches view mode to directories");
                             Console.WriteLine("[SF] - Switches view mode to files\n[EX] - Executes current file");
                             Console.WriteLine(":cd (path) - Changes path\n:none - Sets current file to NONE\n:pex (program) - Executes program from PATH\n:finf - Gets info about current file");
-                            Console.WriteLine(":sfmsc - Get info about system and SFM\n:q - Quit");
+                            Console.WriteLine(":sfmsc - Get info about system and SFM\n:q - Quit\n:rm (dir name/number) - Removes dir");
                             Console.ReadKey();
                             Console.Clear();
                             break;
